@@ -29,6 +29,8 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|Cake whereValue($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Cake whereWeight($value)
  * @mixin \Eloquent
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\CakeAwaitingList[] $awaitingLists
+ * @property-read int|null $awaiting_lists_count
  */
 class Cake extends Model
 {
@@ -41,4 +43,9 @@ class Cake extends Model
         'available_quantity',
         'unit_of_measure'
     ];
+
+    public function awaitingLists()
+    {
+        return $this->hasMany(CakeAwaitingList::class);
+    }
 }

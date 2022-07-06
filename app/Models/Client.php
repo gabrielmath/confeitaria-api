@@ -23,10 +23,17 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|Client whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Client whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\CakeAwaitingList[] $awaitingLists
+ * @property-read int|null $awaiting_lists_count
  */
 class Client extends Model
 {
     use HasFactory;
 
     protected $fillable = ['name', 'email'];
+
+    public function awaitingLists()
+    {
+        return $this->hasMany(CakeAwaitingList::class);
+    }
 }

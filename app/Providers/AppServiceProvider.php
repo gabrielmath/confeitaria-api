@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Models\Cake;
+use App\Observers\CakeObserver;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -25,6 +27,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        Cake::observe(CakeObserver::class);
     }
 }
