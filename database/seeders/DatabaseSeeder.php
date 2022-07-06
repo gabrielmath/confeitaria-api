@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\Cake;
+use App\Models\Client;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -13,12 +15,12 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // \App\Models\User::factory(10)->create();
-        \App\Models\Cake::factory(10)->create();
+        if (Client::all()->isEmpty()) {
+            Client::factory(5000)->create();
+        }
 
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
+        if (Cake::all()->isEmpty()) {
+            Cake::factory(10)->create();
+        }
     }
 }
