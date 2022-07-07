@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Models\Cake;
+use App\Notifications\CakeAvailableNotification;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -13,16 +14,14 @@ class CakeAvailableAllJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    private Cake $cake;
-
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct(Cake $cake)
+    public function __construct(private Cake $cake)
     {
-        $this->cake = $cake;
+        //
     }
 
     /**
@@ -32,8 +31,7 @@ class CakeAvailableAllJob implements ShouldQueue
      */
     public function handle()
     {
-        $this->cake->awaitingLists->each(
-            fn($awaitingList) => CakeAvailableClientJob::dispatch($awaitingList)
-        );
+        $this->cake->waitingLists->each(fn($waitingList) => $waitingList->notify(new CakeAvailableNotification()));
+//        $this->cake->awaitingLists->each(fn($awaitingList) => CakeAvailableClientJob::dispatch($awaitingList));
     }
 }

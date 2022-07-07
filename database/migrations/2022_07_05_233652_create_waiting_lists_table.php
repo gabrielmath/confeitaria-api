@@ -12,11 +12,17 @@ return new class extends Migration {
      */
     public function up()
     {
-        Schema::create('clients', function (Blueprint $table) {
+        Schema::create('waiting_lists', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('cake_id');
             $table->string('name', '150');
-            $table->string('email')->unique();
+            $table->string('email');
             $table->timestamps();
+
+            $table->foreign('cake_id')
+                ->references('id')
+                ->on('cakes')
+                ->cascadeOnDelete();
         });
     }
 
@@ -27,6 +33,6 @@ return new class extends Migration {
      */
     public function down()
     {
-        Schema::dropIfExists('clients');
+        Schema::dropIfExists('waiting_lists');
     }
 };

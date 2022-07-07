@@ -2,7 +2,7 @@
 
 namespace App\Jobs;
 
-use App\Models\CakeAwaitingList;
+use App\Models\WaitingList;
 use App\Notifications\CakeAvailableNotification;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -20,7 +20,7 @@ class CakeAvailableClientJob implements ShouldQueue
      * @return void
      */
     public function __construct(
-        public CakeAwaitingList $awaitingList,
+        private WaitingList $waitingList,
     ) {
         //
     }
@@ -32,6 +32,6 @@ class CakeAvailableClientJob implements ShouldQueue
      */
     public function handle()
     {
-        $this->awaitingList->notify(new CakeAvailableNotification());
+        $this->waitingList->notify(new CakeAvailableNotification());
     }
 }

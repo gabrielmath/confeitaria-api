@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ClientRequest extends FormRequest
+class WaitingListRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,11 +26,11 @@ class ClientRequest extends FormRequest
         /**
          * "$this->client" é o parâmetro de declarado na rota: /clients/{client}
          */
-        $id = $this->client->id ?? null;
+        $id = $this->waitingList->id ?? null;
 
         return [
             'name'  => ['required', 'min:3', 'max:150'],
-            'email' => ['required', 'email', "unique:clients,email,{$id},id"]
+            'email' => ['required', 'email', "unique:waiting_lists,email,{$id},id"]
         ];
     }
 }

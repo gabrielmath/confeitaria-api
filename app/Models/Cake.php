@@ -16,6 +16,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $unit_of_measure
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\WaitingList[] $waitingLists
+ * @property-read int|null $waiting_lists_count
  * @method static \Database\Factories\CakeFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|Cake newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Cake newQuery()
@@ -29,8 +31,6 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|Cake whereValue($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Cake whereWeight($value)
  * @mixin \Eloquent
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\CakeAwaitingList[] $awaitingLists
- * @property-read int|null $awaiting_lists_count
  */
 class Cake extends Model
 {
@@ -44,8 +44,8 @@ class Cake extends Model
         'unit_of_measure'
     ];
 
-    public function awaitingLists()
+    public function waitingLists()
     {
-        return $this->hasMany(CakeAwaitingList::class);
+        return $this->hasMany(WaitingList::class);
     }
 }

@@ -40,8 +40,8 @@ class CakeAvailableNotification extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->subject('🎂 😍 Bolinho quente saindo do forno!')
-            ->greeting("Olá, {$notifiable->client->name}!")
+            ->subject('🎂 😍 Bolo pronto para entrega!')
+            ->greeting("Olá, {$notifiable->name}!")
             ->line("Temos algumas unidades do bolo '{$notifiable->cake->name}' disponíveis")
             ->action('Reserve já o seu!', route('api.v1.cakes.show', ['cake' => $notifiable->cake->id]))
             ->line('Obrigado por confiar em nosso trabalho!');
