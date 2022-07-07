@@ -4,10 +4,10 @@ namespace App\Observers;
 
 use App\Jobs\CakeAvailableAllJob;
 use App\Models\Cake;
-use App\Models\Client;
 
 class CakeObserver
 {
+
     /**
      * Handle the Cake "updated" event.
      *
@@ -16,14 +16,8 @@ class CakeObserver
      */
     public function updated(Cake $cake)
     {
-        if ($cake->awaitingLists()->count() == 0) {
-            $clients = Client::all();
-
-            foreach ($clients as $client) {
-                $cake->awaitingLists()->create(['client_id' => $client->id]);
-            }
+        if ($cake->available_quantity > 0 && $cake->waitingLists()->exists()) {
+            CakeAvailableAllJob::dispatch($cake);
         }
-
-        CakeAvailableAllJob::dispatch($cake);
     }
 }
