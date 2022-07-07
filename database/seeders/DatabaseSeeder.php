@@ -2,7 +2,8 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Jobs\CakeAvailableAllJob;
+use App\Models\Cake;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -14,11 +15,22 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // \App\Models\User::factory(10)->create();
+        \Artisan::call('cache:clear');
+        \Artisan::call('queue:clear redis');
+        \Artisan::output();
 
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
+        if (Cake::all()->isEmpty()) {
+            Cake::factory(20)->create();
+        }
+
+        $cake = Cake::first();
+        for ($i = 0; $i < 2000; $i++) {
+            $cake->waitingLists()->create([
+                'name'  => "Usuário {$i}",
+                'email' => "user{$i}@email.test"
+            ]);
+        }
+
+        CakeAvailableAllJob::dispatch($cake);
     }
 }
